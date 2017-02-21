@@ -10,7 +10,7 @@ TARGET=servo_tester
 program: $(TARGET).hex
 	@avr-size $(TARGET).elf --format=avr --mcu=$(MCU)
 	@echo " \033[31m[FLASH]\033[0m"
-	@avrdude -p $(MCU) -U flash:w:$(TARGET).hex
+	@avrdude -v -c avrispmkii -p $(MCU) -U flash:w:$(TARGET).hex
 $(TARGET).hex: $(TARGET).elf
 	avr-objcopy -O ihex -j .text -j .data $(TARGET).elf $(TARGET).hex 
 $(TARGET).elf: $(SRC:.c=.o)

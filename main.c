@@ -37,8 +37,8 @@ void select_digit(int a) {
 		case 1:
 			PORTB|=(1<<4);
 			break;
-		case 2
-:			PORTB|=(1<<5);
+		case 2:
+			PORTB|=(1<<5);
 			break;
 		case 3:
 			PORTB|=(1<<6);
@@ -159,19 +159,6 @@ void pwm_out(uint16_t duty_cycle) {
 	OCR1AL=duty_cycle&0xff;
 }
 
-/*
-void test_pwm(void) {
-	uint16_t out=0;
-	while(1) {
-		display_num(out);
-		_delay_ms(3);
-		if((++out)>=(PWM_PERIOD_US/2))
-			out=0;
-		pwm_out(out);
-	}
-}
-*/
-
 static uint16_t scaleto(uint16_t min_after, uint16_t max_after, uint16_t min_before, uint16_t max_before, uint16_t myval) {
 	uint32_t v=(uint32_t) myval;
 	myval-=min_before;
@@ -188,17 +175,10 @@ int main(void) {
 	
 	sei();
 	
-	//test_pwm();
-	
-	//pwm_out(500);
-
-	//display_num(1337);
-
 	uint16_t myval=0;
 	while(1) {
 		_delay_ms(100);
 
-		
 
 		const uint16_t min_val=200;
 		const uint16_t max_val=16384-200;
@@ -210,25 +190,9 @@ int main(void) {
 		if(myval>max_val)
 			myval=max_val;
 
-
 		uint16_t val=scaleto(0, 100, 0, range, myval);
 		display_num(val);
-		//_delay_ms(100);
-		//myval>>=1;
-		//myval+=measure_adc();
-		
-		/*float x=myval;
-		float y=131.56332492395188*logf(myval)-499; //1000/log(2000)
-
-		int16_t out=y;
-		if(out<0)
-			out=0;
-		display_num(out/5);
-		*/
 
 		pwm_out(100*val);
-
-		//display_num(myval);
-		//pwm_out(myval);
 	}
 }
